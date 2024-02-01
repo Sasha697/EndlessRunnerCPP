@@ -13,5 +13,11 @@ UCLASS()
 class ENDLESSRUNNERTUTO_API ARunGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+
+protected:
+	virtual void BeginPlay() override;
+private:
+    // Reference to the RunCharacter
+    class ARunCharacter* RunCharacter;
+	void InitTiles();
 };
