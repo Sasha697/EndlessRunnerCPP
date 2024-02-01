@@ -25,7 +25,7 @@ protected:
     class UInputAction* MoveAction;
 
     // Called to bind functionality to input
-    virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent);
+    virtual void SetupPlayerInputComponent();
 
     void EnhancedInputMove(const FInputActionValue& Value);
 

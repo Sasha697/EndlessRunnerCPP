@@ -26,6 +26,7 @@ void ARunCharacterController::BeginPlay()
 			Subsystem->AddMappingContext(InputMappingContext, 0);
 		}
 	}
+	SetupPlayerInputComponent();
 }
 
 void ARunCharacterController::Tick(float DeltaTime)
@@ -37,10 +38,10 @@ void ARunCharacterController::Tick(float DeltaTime)
 //////////////////////////////////////////////////////////////////////////
 // Input
 
-void ARunCharacterController::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void ARunCharacterController::SetupPlayerInputComponent()
 {
 	// Set up action bindings
-	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent)) {
 
 		// Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ARunCharacterController::EnhancedInputMove);
@@ -51,7 +52,7 @@ void ARunCharacterController::EnhancedInputMove(const FInputActionValue& Value)
 {
 	// input is a Vector2D
 	FVector2D movementVector = Value.Get<FVector2D>();
-	FVector rightVector = FVector(1.0f, 0.0f, 0.0f);
+	FVector rightVector = FVector(0.0f, 1.0f, 0.0f);
 	// add movement 
 	RunCharacter->AddMovementInput(rightVector, movementVector.X);
 }
