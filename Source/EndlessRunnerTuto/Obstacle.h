@@ -19,6 +19,17 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UStaticMeshComponent* StaticMesh;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Obstacle")
+	void OnTrigger(AActor* OtherActor);
+
+	UFUNCTION()
+	void OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+		FVector NormalImpulse, const FHitResult& Hit);
+
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

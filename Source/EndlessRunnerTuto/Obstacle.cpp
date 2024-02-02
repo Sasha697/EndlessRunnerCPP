@@ -16,6 +16,15 @@ void AObstacle::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	StaticMesh->OnComponentHit.AddDynamic(this, &AObstacle::OnComponentHit);
+}
+
+void AObstacle::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (OtherActor == GetWorld()->GetFirstPlayerController()->GetPawn())
+	{
+		OnTrigger(OtherActor);
+	}
 }
 
 // Called every frame
