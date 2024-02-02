@@ -54,7 +54,6 @@ void ATile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherAct
 
 void ATile::SpawnObstacle()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Spawn"));
 	if (UKismetMathLibrary::RandomBoolWithWeight(0.6f))
 	{
 		if (ObstaclesTypes.Num() <= 0)

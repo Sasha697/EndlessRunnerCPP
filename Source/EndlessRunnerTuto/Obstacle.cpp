@@ -10,8 +10,7 @@ AObstacle::AObstacle()
 	PrimaryActorTick.bCanEverTick = true;
 
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("Statis Mesh");
-	SetRootComponent(StaticMesh);
-	StaticMesh->SetCollisionProfileName("OverlapOnlyPawn");
+	StaticMesh->SetCollisionProfileName("BlockAllDynamic");
 	StaticMesh->SetSimulatePhysics(false);
 	StaticMesh->SetNotifyRigidBodyCollision(true);
 }
@@ -30,6 +29,7 @@ void AObstacle::OnComponentHit(UPrimitiveComponent* HitComponent, AActor* OtherA
 	{
 		OnTrigger(OtherActor);
 	}
+	else return;
 }
 
 // Called every frame
