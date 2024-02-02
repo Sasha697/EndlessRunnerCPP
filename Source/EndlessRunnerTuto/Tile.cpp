@@ -27,22 +27,23 @@ ATile::ATile()
 void ATile::BeginPlay()
 {
 	Super::BeginPlay();
-
-	OnActorHit.AddDynamic(this, &ATile::OnHit);
+	ExitTrigger->OnComponentBeginOverlap.AddDynamic(this, &ATile::OnOverlapBegin);
 }
 
-void ATile::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit)
+void ATile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+
 {
 	// Check if we collided with a Target
 	if (ARunCharacter* runCharacter = Cast<ARunCharacter>(OtherActor))
 	{
-		OnTargetCollided.Broadcast(this);
+		OnExitTile.Broadcast(this);
 	}
 }
 
-FTransform ATile::GetAttachPointTransform()
+FVector ATile::GetAttachPointLocation()
 {
-	return AttachPoint->GetComponentTransform(); 
+	return AttachPoint->GetComponentLocation(); 
 }
 
 // Called every frame

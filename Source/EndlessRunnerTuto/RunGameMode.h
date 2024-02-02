@@ -16,8 +16,21 @@ class ENDLESSRUNNERTUTO_API ARunGameMode : public AGameModeBase
 
 protected:
 	virtual void BeginPlay() override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameMode")
+	TSubclassOf<class ATile> TileClass;
+
+	FVector myLoc = FVector::ZeroVector;
+
+	UFUNCTION()
+	void SpawnNextTiles(ATile* PreviousTile);
+	UFUNCTION()
+	void DestroyTile(ATile* ExitedTile);
+	ATile* LastTile;
+
 private:
     // Reference to the RunCharacter
     class ARunCharacter* RunCharacter;
 	void InitTiles();
+
 };

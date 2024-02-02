@@ -6,15 +6,13 @@
 #include "GameFramework/Actor.h"
 #include "Tile.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTargetCollidedSignature, ATile*, Tile);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTargetCollidedSignature, ATile*, ExitedTile);
 
 UCLASS()
 class ENDLESSRUNNERTUTO_API ATile : public AActor
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintAssignable)
-	FTargetCollidedSignature OnTargetCollided;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -34,11 +32,15 @@ protected:
 	class UBoxComponent* ExitTrigger;
 
 	UFUNCTION()
-	void OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit);
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	FTransform GetAttachPointTransform();
+	FVector GetAttachPointLocation();
 
+	UPROPERTY(BlueprintAssignable)
+	FTargetCollidedSignature OnExitTile;
 };
