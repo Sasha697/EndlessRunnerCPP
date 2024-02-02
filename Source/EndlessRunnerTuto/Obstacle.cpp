@@ -11,7 +11,7 @@ AObstacle::AObstacle()
 
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>("Statis Mesh");
 	SetRootComponent(StaticMesh);
-	StaticMesh->SetCollisionProfileName("BlockAllDynamic");
+	StaticMesh->SetCollisionProfileName("OverlapOnlyPawn");
 	StaticMesh->SetSimulatePhysics(false);
 	StaticMesh->SetNotifyRigidBodyCollision(true);
 }

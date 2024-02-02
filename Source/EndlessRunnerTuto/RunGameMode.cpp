@@ -8,13 +8,6 @@
 void ARunGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-
-
-	if (ARunCharacter* runCharacter = Cast<ARunCharacter>(GetWorld()->GetFirstPlayerController()->GetPawn()))
-	{
-		// Listen to the event
-		//runCharacter->OnTargetCollided.AddDynamic(this, &ASampleGameMode::OnTargetCollided);
-	}
 	InitTiles();
 }
 

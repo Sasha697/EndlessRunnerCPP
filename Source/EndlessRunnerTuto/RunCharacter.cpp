@@ -6,6 +6,9 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
 #include "Camera/CameraComponent.h"
+#include "Particles/ParticleSystem.h"
+#include "Particles/ParticleSystemComponent.h"
+
 
 // Sets default values
 ARunCharacter::ARunCharacter()
@@ -34,5 +37,15 @@ void ARunCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ARunCharacter::Die()
+{
+	if (!IsDead)
+	{
+		IsDead = true;
+		GetMesh()->SetVisibility(false);
+		OnDeath.Broadcast(this);
+	}
 }
 

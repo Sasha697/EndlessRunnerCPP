@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "RunCharacter.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeath, ARunCharacter*, DeadPlayer);
 
 UCLASS()
 class ENDLESSRUNNERTUTO_API ARunCharacter : public ACharacter
@@ -26,7 +27,17 @@ protected:
 	UPROPERTY(VisibleAnywhere, BluePrintReadOnly)
 	class UCameraComponent* Camera;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+	bool IsDead = false;
+
+	UFUNCTION(BlueprintCallable, Category = "Player")
+	void Die();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(BlueprintAssignable, Category = "Player")
+	FOnDeath OnDeath;
+
 };

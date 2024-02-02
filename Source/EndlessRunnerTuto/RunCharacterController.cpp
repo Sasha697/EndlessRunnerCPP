@@ -25,14 +25,18 @@ void ARunCharacterController::BeginPlay()
 		{
 			Subsystem->AddMappingContext(InputMappingContext, 0);
 		}
+		RunCharacter->OnDeath.AddDynamic(this, &ARunCharacterController::OnPlayerDeath);
 	}
 	SetupPlayerInputComponent();
 }
 
 void ARunCharacterController::Tick(float DeltaTime)
 {
-	FVector forwardVector = FVector(1.0f, 0.0f, 0.0f);
-	RunCharacter->AddMovementInput(forwardVector);
+	if (CanMove)
+	{
+		FVector forwardVector = FVector(1.0f, 0.0f, 0.0f);
+		RunCharacter->AddMovementInput(forwardVector);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -55,5 +59,11 @@ void ARunCharacterController::EnhancedInputMove(const FInputActionValue& Value)
 	FVector rightVector = FVector(0.0f, 1.0f, 0.0f);
 	// add movement 
 	RunCharacter->AddMovementInput(rightVector, movementVector.X);
+}
+
+void ARunCharacterController::OnPlayerDeath(ARunCharacter* DeadActor)
+{
+	CanMove = false;
+	DisableInput(this);
 }
 

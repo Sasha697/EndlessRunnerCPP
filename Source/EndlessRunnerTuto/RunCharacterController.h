@@ -24,6 +24,9 @@ protected:
     UPROPERTY(EditDefaultsOnly, BluePrintReadOnly, Category = "Enhanced Input")
     class UInputAction* MoveAction;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
+    bool CanMove = true;
+
     // Called to bind functionality to input
     virtual void SetupPlayerInputComponent();
 
@@ -37,4 +40,5 @@ private:
 public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
+    void OnPlayerDeath(ARunCharacter* DeadActor);
 };
