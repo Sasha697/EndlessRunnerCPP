@@ -41,6 +41,14 @@ void ATile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherAct
 	}
 }
 
+void ATile::SpawnObstacle()
+{
+}
+
+void ATile::SpawnPickup()
+{
+}
+
 FVector ATile::GetAttachPointLocation()
 {
 	return AttachPoint->GetComponentLocation(); 

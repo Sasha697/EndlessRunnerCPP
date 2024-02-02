@@ -21,7 +21,7 @@ void ARunGameMode::BeginPlay()
 void ARunGameMode::InitTiles()
 {
 	LastTile = nullptr;
-	int32 length = 5;
+	int32 length = 10;
 	for (size_t i = 0; i < length; i++)
 	{
 		SpawnNextTiles(LastTile);

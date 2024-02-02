@@ -31,9 +31,23 @@ protected:
 	UPROPERTY(VisibleAnywhere, BluePrintReadOnly)
 	class UBoxComponent* ExitTrigger;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Obstacle")
+	TArray<TSubclassOf<class AObstacle>> ObstaclesTypes;
+
+	/*UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Pickup")
+	TArray<TSubclassOf<class APickup>> Pickups;*/
+
+
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+private:
+	UFUNCTION(BlueprintCallable, Category = "Obstacle")
+	void SpawnObstacle();
+
+	UFUNCTION()
+	void SpawnPickup();
 
 
 public:	
