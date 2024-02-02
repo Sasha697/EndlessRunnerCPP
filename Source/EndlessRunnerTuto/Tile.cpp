@@ -3,9 +3,11 @@
 
 #include "Tile.h"
 #include "RunCharacter.h"
+#include "Obstacle.h"
 #include "Components/SceneComponent.h"
 #include "Components/ArrowComponent.h"
 #include "Components/BoxComponent.h"
+#include <Kismet/KismetMathLibrary.h>
 
 // Sets default values
 ATile::ATile()
@@ -43,6 +45,17 @@ void ATile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherAct
 
 void ATile::SpawnObstacle()
 {
+	if (ObstaclesTypes.Num() <= 0)
+		return;
+	const FVector SpawnLocation = UKismetMathLibrary::RandomPointInBoundingBox(ObstacleSpawnArea->GetRelativeLocation(),ObstacleSpawnArea->GetScaledBoxExtent());
+	const int32 RandomIndex = FMath::RandRange(0, ObstaclesTypes.Num() - 1);
+	const TSubclassOf<AObstacle> RandomObstacleClass = ObstaclesTypes[RandomIndex];
+
+	UChildActorComponent* ChildActorComponent = NewObject<UChildActorComponent>(this, "Obstacle");
+	ChildActorComponent->SetChildActorClass(RandomObstacleClass);
+	ChildActorComponent->RegisterComponent();
+	ChildActorComponent->SetRelativeTransform(UKismetMathLibrary::Conv_VectorToTransform(SpawnLocation));
+	ChildActorComponent->AttachToComponent(SceneComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 void ATile::SpawnPickup()

@@ -31,6 +31,12 @@ protected:
 	UPROPERTY(VisibleAnywhere, BluePrintReadOnly)
 	class UBoxComponent* ExitTrigger;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "ObstacleSpawnArea")
+	UBoxComponent* ObstacleSpawnArea;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "PickupSpawnArea")
+	UBoxComponent* PickupSpawnArea;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Obstacle")
 	TArray<TSubclassOf<class AObstacle>> ObstaclesTypes;
 
