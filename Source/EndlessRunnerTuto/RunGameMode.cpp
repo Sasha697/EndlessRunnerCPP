@@ -37,18 +37,15 @@ void ARunGameMode::SpawnNextTiles(ATile* PreviousTile)
 		myLoc = LastTile->GetAttachPointLocation();
 		LastTile->OnExitTile.AddDynamic(this, &ARunGameMode::SpawnNextTiles);
 		LastTile->OnExitTile.AddDynamic(this, &ARunGameMode::DestroyTile);
-		UE_LOG(LogTemp, Warning, TEXT("plop"));
 	}
 		
 }
 
 void ARunGameMode::DestroyTile(ATile* ExitedTile)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Kaboom"));
 	FTimerHandle TimerHandle;
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, [ExitedTile]()
 	{
-		UE_LOG(LogTemp, Warning, TEXT("boom"));
 		ExitedTile->Destroy();
 	}, 2.5f, false);
 }

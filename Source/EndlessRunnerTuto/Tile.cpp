@@ -23,12 +23,21 @@ ATile::ATile()
 
 	ExitTrigger = CreateDefaultSubobject<UBoxComponent>("Collision Mesh");
 	ExitTrigger->SetupAttachment(SceneComponent);
+
+	ObstacleSpawnArea = CreateDefaultSubobject<UBoxComponent>("ObstacleSpawnArea");
+	ObstacleSpawnArea->SetupAttachment(SceneComponent);
+
+	PickupSpawnArea = CreateDefaultSubobject<UBoxComponent>("PickupSpawnArea");
+	PickupSpawnArea->SetupAttachment(SceneComponent);
+
+
 }
 
 // Called when the game starts or when spawned
 void ATile::BeginPlay()
 {
 	Super::BeginPlay();
+	SpawnObstacle();
 	ExitTrigger->OnComponentBeginOverlap.AddDynamic(this, &ATile::OnOverlapBegin);
 }
 
@@ -45,17 +54,24 @@ void ATile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherAct
 
 void ATile::SpawnObstacle()
 {
-	if (ObstaclesTypes.Num() <= 0)
-		return;
-	const FVector SpawnLocation = UKismetMathLibrary::RandomPointInBoundingBox(ObstacleSpawnArea->GetRelativeLocation(),ObstacleSpawnArea->GetScaledBoxExtent());
-	const int32 RandomIndex = FMath::RandRange(0, ObstaclesTypes.Num() - 1);
-	const TSubclassOf<AObstacle> RandomObstacleClass = ObstaclesTypes[RandomIndex];
+	UE_LOG(LogTemp, Warning, TEXT("Spawn"));
+	if (UKismetMathLibrary::RandomBoolWithWeight(0.6f))
+	{
+		if (ObstaclesTypes.Num() <= 0)
+			return;
+		const FVector SpawnLocation = UKismetMathLibrary::RandomPointInBoundingBox(ObstacleSpawnArea->GetRelativeLocation(), ObstacleSpawnArea->GetScaledBoxExtent());
+		const int32 RandomIndex = FMath::RandRange(0, ObstaclesTypes.Num() - 1);
+		const TSubclassOf<AObstacle> RandomObstacleClass = ObstaclesTypes[RandomIndex];
 
-	UChildActorComponent* ChildActorComponent = NewObject<UChildActorComponent>(this, "Obstacle");
-	ChildActorComponent->SetChildActorClass(RandomObstacleClass);
-	ChildActorComponent->RegisterComponent();
-	ChildActorComponent->SetRelativeTransform(UKismetMathLibrary::Conv_VectorToTransform(SpawnLocation));
-	ChildActorComponent->AttachToComponent(SceneComponent, FAttachmentTransformRules::KeepRelativeTransform);
+		if (!RandomObstacleClass)
+			return;
+
+		UChildActorComponent* ChildActorComponent = NewObject<UChildActorComponent>(this, "Obstacle");
+		ChildActorComponent->SetChildActorClass(RandomObstacleClass);
+		ChildActorComponent->RegisterComponent();
+		ChildActorComponent->SetRelativeTransform(UKismetMathLibrary::Conv_VectorToTransform(SpawnLocation));
+		ChildActorComponent->AttachToComponent(SceneComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	}
 }
 
 void ATile::SpawnPickup()
