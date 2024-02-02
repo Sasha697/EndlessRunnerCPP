@@ -36,7 +36,6 @@ void ARunCharacter::BeginPlay()
 void ARunCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void ARunCharacter::Die()
