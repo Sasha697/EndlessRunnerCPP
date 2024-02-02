@@ -63,6 +63,7 @@ void ARunCharacterController::EnhancedInputMove(const FInputActionValue& Value)
 
 void ARunCharacterController::OnPlayerDeath(ARunCharacter* DeadActor)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Disable Input"));
 	CanMove = false;
 	DisableInput(this);
 }
