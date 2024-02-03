@@ -42,9 +42,17 @@ void ARunCharacter::Die()
 {
 	if (!IsDead)
 	{
+		OnPlayerDeath();
 		IsDead = true;
 		GetMesh()->SetVisibility(false);
+		/*GetMesh()->SetSimulatePhysics(true);
+		GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly); */
 		OnDeath.Broadcast(this);
 	}
+}
+
+void ARunCharacter::AddCoin()
+{
+	Coins++;
 }
 

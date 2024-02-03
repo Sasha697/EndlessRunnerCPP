@@ -4,11 +4,18 @@
 #include "RunGameMode.h"
 #include "RunCharacter.h"
 #include "Tile.h"
+#include <Kismet/GameplayStatics.h>
 
 void ARunGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	InitTiles();
+	RunCharacter = Cast<ARunCharacter>(UGameplayStatics::GetPlayerPawn(this, 0));
+	if (RunCharacter == nullptr)
+	{
+		return;
+	}
+	RunCharacter->OnDeath.AddDynamic(this, &ARunGameMode::OnPlayerDeath); 
 }
 
 void ARunGameMode::InitTiles()
@@ -30,8 +37,7 @@ void ARunGameMode::SpawnNextTiles(ATile* PreviousTile)
 		myLoc = LastTile->GetAttachPointLocation();
 		LastTile->OnExitTile.AddDynamic(this, &ARunGameMode::SpawnNextTiles);
 		LastTile->OnExitTile.AddDynamic(this, &ARunGameMode::DestroyTile);
-	}
-		
+	}	
 }
 
 void ARunGameMode::DestroyTile(ATile* ExitedTile)

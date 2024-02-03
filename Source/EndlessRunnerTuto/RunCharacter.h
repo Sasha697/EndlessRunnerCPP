@@ -30,8 +30,17 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player")
 	bool IsDead = false;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player")
+	int32 Coins = 0;
+
 	UFUNCTION(BlueprintCallable, Category = "Player")
 	void Die();
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Player")
+	void OnPlayerDeath();
+
+	UFUNCTION(BlueprintCallable, Category = "Player")
+	void AddCoin();
 
 public:	
 	// Called every frame
@@ -39,5 +48,4 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "Player")
 	FOnDeath OnDeath;
-
 };

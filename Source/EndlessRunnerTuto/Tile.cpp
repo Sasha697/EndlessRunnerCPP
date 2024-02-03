@@ -4,6 +4,7 @@
 #include "Tile.h"
 #include "RunCharacter.h"
 #include "Obstacle.h"
+#include "Pickup.h"
 #include "Components/SceneComponent.h"
 #include "Components/ArrowComponent.h"
 #include "Components/BoxComponent.h"
@@ -38,6 +39,7 @@ void ATile::BeginPlay()
 {
 	Super::BeginPlay();
 	SpawnObstacle();
+	SpawnPickup();
 	ExitTrigger->OnComponentBeginOverlap.AddDynamic(this, &ATile::OnOverlapBegin);
 }
 
@@ -75,6 +77,23 @@ void ATile::SpawnObstacle()
 
 void ATile::SpawnPickup()
 {
+	if (UKismetMathLibrary::RandomBoolWithWeight(0.3f))
+	{
+		if (PickupsTypes.Num() <= 0)
+			return;
+		const FVector SpawnLocation = UKismetMathLibrary::RandomPointInBoundingBox(PickupSpawnArea->GetRelativeLocation(), PickupSpawnArea->GetScaledBoxExtent());
+		const int32 RandomIndex = FMath::RandRange(0, PickupsTypes.Num() - 1);
+		const TSubclassOf<APickup> RandomPickupClass = PickupsTypes[RandomIndex];
+
+		if (!RandomPickupClass)
+			return;
+
+		UChildActorComponent* ChildActorComponent = NewObject<UChildActorComponent>(this, "Obstacle"); 
+		ChildActorComponent->SetChildActorClass(RandomPickupClass); 
+		ChildActorComponent->RegisterComponent(); 
+		ChildActorComponent->SetRelativeTransform(UKismetMathLibrary::Conv_VectorToTransform(SpawnLocation)); 
+		ChildActorComponent->AttachToComponent(SceneComponent, FAttachmentTransformRules::KeepRelativeTransform); 
+	}
 }
 
 FVector ATile::GetAttachPointLocation()

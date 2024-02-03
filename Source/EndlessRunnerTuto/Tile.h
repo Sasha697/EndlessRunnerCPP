@@ -40,8 +40,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Obstacle")
 	TArray<TSubclassOf<class AObstacle>> ObstaclesTypes;
 
-	/*UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Pickup")
-	TArray<TSubclassOf<class APickup>> Pickups;*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Pickup")
+	TArray<TSubclassOf<class APickup>> PickupsTypes;
 
 
 	UFUNCTION()

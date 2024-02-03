@@ -20,17 +20,24 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameMode")
 	TSubclassOf<class ATile> TileClass;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
 	FVector myLoc = FVector::ZeroVector;
 
 	UFUNCTION()
 	void SpawnNextTiles(ATile* PreviousTile);
+
 	UFUNCTION()
 	void DestroyTile(ATile* ExitedTile);
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
 	ATile* LastTile;
 
-private:
-    // Reference to the RunCharacter
-    class ARunCharacter* RunCharacter;
-	void InitTiles();
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GameMode")
+	class ARunCharacter* RunCharacter;
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnPlayerDeath(ARunCharacter* DeadActor);
+
+private:
+	void InitTiles();
 };
